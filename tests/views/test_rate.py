@@ -9,11 +9,11 @@ from src.models import Car, Rate
 class TestCarView(TestCase):
     @property
     def url(self):
-        return "/api/rate/"
+        return "/rate/"
 
     @property
     def url_v2(self):
-        return "/api/v2/rate/"
+        return "/v2/rate/"
 
     @staticmethod
     def create_car():

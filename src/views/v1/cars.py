@@ -26,13 +26,16 @@ class CarsView(APIView):
         cars_query = Car.objects.all().prefetch_related("rate_set")
 
         for car in cars_query:
+            avg_rating = 0
+            if car.rate_set.exists():
+                avg_rating = round(
+                    car.rate_set.aggregate(Avg("rating"))["rating__avg"], 4
+                )
             car_dict = CarWithAvgRatingDef(
                 id=car.id,
                 make=car.make,
                 model=car.model,
-                avg_rating=round(
-                    car.rate_set.aggregate(Avg("rating"))["rating__avg"], 4
-                ),
+                avg_rating=avg_rating,
             ).dict(exclude_none=True)
             data.append(car_dict)
 

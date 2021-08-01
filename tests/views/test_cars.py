@@ -11,11 +11,11 @@ from src.models import Car, Rate
 class TestCarView(TestCase):
     @property
     def url(self):
-        return "/api/cars/"
+        return "/cars/"
 
     @property
     def url_v2(self):
-        return "/api/v2/cars/"
+        return "/v2/cars/"
 
     @property
     def gov_dot_mercedes(self):

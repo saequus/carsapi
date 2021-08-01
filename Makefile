@@ -24,7 +24,6 @@ up:
 test:
 		python3 manage.py test .
 
-
 tox:
 		tox
 
