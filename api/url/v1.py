@@ -1,4 +1,3 @@
-import markdown
 from django.urls import re_path
 
 from src.views.v1 import cars, index, popular, rate

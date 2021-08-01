@@ -25,7 +25,6 @@ isort = "^5.9.2"
 pydantic = "^1.8.2"
 mock = "^4.0.3"
 tox = "^3.24.0"
-Markdown = "^3.3.4"
 
 [tool.poetry.dev-dependencies]
 
