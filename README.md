@@ -1,4 +1,4 @@
-# Carsapi
+# CarsAPI
 
 ## Preparation
 
@@ -29,7 +29,7 @@ Credentials will be sent to you after request to __slava@spetsyian.com__.
 ---
 1. Flush db before use (just to be sure no previous data is present)
 ~~~
-curl --location --request GET 'http://3ckster.com/api/v2/flush-db/'
+curl --location --request GET 'http://3ckster.com/v2/flush-db/'
 ~~~
 Response
 ~~~ json
@@ -42,7 +42,7 @@ Response
 2. Post data to retrieve car
 ~~~
 
-curl --location --request POST 'http://3ckster.com/api/cars/' \
+curl --location --request POST 'http://3ckster.com/cars/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "model": "Civic",
@@ -60,7 +60,7 @@ Response
 ---
 3. Post rating data
 ~~~
-curl --location --request POST 'http://3ckster.com/api/rate/' \
+curl --location --request POST 'http://3ckster.com/rate/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "car_id": 1,
@@ -78,7 +78,7 @@ Response
 ---
 4. Get aggregated cars data
 ~~~
-curl --location --request GET 'http://3ckster.com/api/cars/'
+curl --location --request GET 'http://3ckster.com/cars/'
 ~~~
 Response
 ~~~ json
@@ -95,7 +95,7 @@ Response
 ---
 5. Get information on which cars are popular by their rates number
 ~~~
-curl --location --request GET 'http://3ckster.com/api/popular/'
+curl --location --request GET 'http://3ckster.com/popular/'
 ~~~
 Response
 ~~~ json
@@ -109,5 +109,21 @@ Response
 ]
 ~~~
 
+---
+6. Delete car
+~~~
+curl --location --request DELETE 'http://3ckster.com/cars/1/' \
+--header 'Content-Type: application/json'
+~~~
+Response
+~~~ json
+{
+    "status": "ok",
+    "car": {
+        "model": "Civic",
+        "make": "HONDA"
+    }
+}
+~~~
 
 

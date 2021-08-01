@@ -46,11 +46,20 @@ class CarsView(APIView):
         responses={"200": CarsReponseSerializer},
     )
     def post(self, request):
-        serializer = CarsBodySerializer(data=request.body)
+        serializer = CarsBodySerializer(data=request.data)
         serializer.is_valid()
 
-        make = request.POST.get("make", None)
-        model = request.POST.get("model", None)
+        make = request.data.get("make", None)
+        model = request.data.get("model", None)
+        if not make or not model:
+            return JsonResponse(
+                {
+                    "status": self.status.ERROR,
+                    "detail": self.detail.MODEL_OR_MAKE_NOT_PROVIDED,
+                },
+                status=401,
+            )
+
         url = f"{settings.DOT_GOV_URL}{settings.MODELS_FOR_MAKE_API}{make}?{settings.JSON_FORMAT}"
         response = requests.get(url)
         content = json.loads(response.content)
@@ -73,7 +82,7 @@ class CarsView(APIView):
         if len(content["Results"]) < 1:
             return JsonResponse(
                 {"status": self.status.ERROR, "detail": self.detail.MAKE_HAS_NO_MODELS},
-                status=400,
+                status=401,
             )
 
         car_def, just_created = None, False
@@ -96,7 +105,7 @@ class CarsView(APIView):
                         "status": self.status.ERROR,
                         "detail": self.detail.FAILED_TO_CREATE,
                     },
-                    status=400,
+                    status=401,
                 )
 
         if car_def and just_created:
@@ -131,6 +140,6 @@ class CarsView(APIView):
             )
             car.delete()
             return JsonResponse(
-                data=car_def.dict(),
+                {"status": self.status.OK, "car": car_def.dict()},
                 status=204,
             )

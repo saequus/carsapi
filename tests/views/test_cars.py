@@ -97,3 +97,14 @@ class TestCarView(TestCase):
                 json.loads(response.content),
                 {"make": "MERCEDES-BENZ", "model": "Sprinter"},
             )
+
+    def test_delete_response_ok(self):
+        bmw, honda, mercedes = self.create_cars()
+        bmw_id = bmw.id
+        honda_id = honda.id
+        self.assertEqual(Car.objects.filter(id=bmw_id).count(), 1)
+        _ = self.client.delete(f"{self.url}{bmw_id}/")
+        self.assertEqual(Car.objects.filter(id=bmw_id).count(), 0)
+        self.assertEqual(Car.objects.filter(id=honda_id).count(), 1)
+        _ = self.client.delete(f"{self.url}{honda_id}/")
+        self.assertEqual(Car.objects.filter(id=honda_id).count(), 0)

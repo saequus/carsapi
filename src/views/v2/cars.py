@@ -46,11 +46,11 @@ class CarsView(APIView):
         responses={"200": CarsReponseSerializer},
     )
     def post(self, request):
-        serializer = CarsBodySerializer(data=request.body)
+        serializer = CarsBodySerializer(data=request.data)
         serializer.is_valid()
 
-        make = request.POST.get("make", None)
-        model = request.POST.get("model", None)
+        make = request.data.get("make", None)
+        model = request.data.get("model", None)
         url = f"{settings.DOT_GOV_URL}{settings.MODELS_FOR_MAKE_API}{make}?{settings.JSON_FORMAT}"
         response = requests.get(url)
         content = json.loads(response.content)

@@ -21,7 +21,7 @@ class RateView(APIView):
         responses={"200": RateReponseSerializer},
     )
     def post(self, request):
-        serializer = RateBodySerializer(data=request.body)
+        serializer = RateBodySerializer(data=request.data)
         serializer.is_valid()
 
         car_id = request.data.get("car_id", None)

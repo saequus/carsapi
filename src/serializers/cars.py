@@ -11,6 +11,7 @@ class CarsViewConsts:
     class DetailEnum(str, Enum):
         NOT_FOUND = "not_found"
         UNSUCCESSFUL_API_RESPONSE = "unsuccessful_api_response"
+        MODEL_OR_MAKE_NOT_PROVIDED = "model_or_make_not_provided"
         MAKE_HAS_NO_MODELS = "make_has_no_models"
         CREATED = "created"
         ALREADY_EXISTS = "already_exists"
