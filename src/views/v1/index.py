@@ -14,8 +14,6 @@ def view(_):
                 <div style='display: flex; flex-direction: column; margin: auto;'>
                     <h2>Cars API</h2>
                     <div>
-                        <a href='/redoc/'>Swagger</a>
-                        <p>
                         <a href='https://github.com/saequus/carsapi#readme'>README</a>
                         <p>
                         <a href='https://github.com/saequus/carsapi'>Repository</a>
