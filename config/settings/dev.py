@@ -1,33 +1,33 @@
-from pathlib import Path
+import os
+import sys
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import dj_database_url
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-&)lz=+g1ah70v^^#1*d1**(s5c2k%m3vlvsvz4rl3$b%*4vi0p"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+SETTINGS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(SETTINGS_DIR)
 
 
-# Application definition
+if os.path.exists(os.path.join(SETTINGS_DIR, "settings/settings_local.py")):
+    from .settings_local import *
+
+
+SECRET_KEY = "agsWEmsD6g9d120E23vsk"
+ALLOWED_HOSTS = ["*"]
+
+#################################
+# # # Application definition # # #
+#################################
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.admin",
     "django.contrib.staticfiles",
+    "drf_yasg",
     "src",
     "rest_framework",
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -45,7 +45,8 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        # Add dist to
+        "DIRS": ["dist"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -60,20 +61,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+############
+# DATABASE #
+############
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+if len(sys.argv) >= 2 and "test" in sys.argv:
+    DATABASE_URL = "postgres://slavaspetsyian@localhost:5432/test_carsapi"
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -90,33 +86,43 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+MIDDLEWARE_CLASSES = ()
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "dist", "static")
+STATICFILES_DIRS = []
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+##################
+# # # Static # # #
+##################
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+}
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+###############################
+# # # Application specific # # #
+###############################
 
 DOT_GOV_URL = "https://vpic.nhtsa.dot.gov/api/"
-MODELS_FOR_MAKE_API = "vehicles/getmodelsformake/"
+MODELS_FOR_MAKE_API_URL = "vehicles/getmodelsformake/"
 JSON_FORMAT = "format=json"
 RESPONSE_RETURNED_SUCCESSFULLY = "Response returned successfully"

@@ -5,6 +5,11 @@
 Note: poetry should already be installed on the system.
 
 ### Local setup
+First, check the file `config/settings/local_settings.example.py` and rename it to `local_settings.py`.
+
+Note: database from `DATABASE_URL` should exist and access should be granted to user.
+
+Then run commands:
 ~~~
 make shell
 make install

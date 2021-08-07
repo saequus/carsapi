@@ -11,16 +11,9 @@ RUN apt-get update \
         gnupg2 \
         runit \
         software-properties-common \
-#        build-essential \
-#    && echo deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -sc`-pgdg main >> /etc/apt/sources.list.d/pgdg.list \
-#    && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add - \
-#    && echo deb http://nginx.org/packages/mainline/ubuntu/ `lsb_release -sc` nginx > /etc/apt/sources.list.d/nginx-mainline.list \
-#    && echo deb-src http://nginx.org/packages/mainline/ubuntu/ `lsb_release -sc` nginx >> /etc/apt/sources.list.d/nginx-mainline.list \
-#    && curl https://nginx.org/keys/nginx_signing.key|apt-key add - \
+        libpq-dev \
+        build-essential \
     && apt-get clean
-
-RUN add-apt-repository ppa:deadsnakes/ppa
-
 
 RUN set -x \
     && apt-get update -qq && apt-get upgrade -qq \
@@ -34,19 +27,14 @@ RUN set -x \
         openssl \
         postfix \
         python3.9 \
-        python3.9-dev \
         python3-dev \
-        build-essential \
         python3-pip \
+        postgresql-client-12 \
         screen \
         time \
     \
     && pip3 install --upgrade pip>=20 \
     && pip3 install poetry \
-#    && BUILD_DEPS='build-essential python3-dev' \
-#    && apt-get install --no-install-recommends -qq ${BUILD_DEPS} \
-#    && apt-get purge -qq ${BUILD_DEPS} \
-
     && apt-get autoremove -qq
 
 
