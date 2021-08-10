@@ -3,6 +3,7 @@ import sys
 
 import dj_database_url
 
+DEBUG = bool(os.getenv("DJANGO_DEBUG", True))
 SETTINGS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(SETTINGS_DIR)
 
@@ -110,11 +111,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
     ),
 }
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

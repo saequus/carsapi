@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
-ENV LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive
+ENV LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive LC_CTYPE=en_US.UTF-8
+RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen
 
 RUN apt-get update \
     && apt-get install -qq -y \

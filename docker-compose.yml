@@ -1,6 +1,20 @@
-version: "2.4"
+version: "3.5"
 
 services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:12
+    environment:
+      LANG: 'ru_RU.utf8'
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
   web:
     build: .
     command: poetry run python3 manage.py runserver 0.0.0.0:8000
@@ -9,7 +23,20 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - LANG
+      - LC_CTYPE
       - SERVER_ROLE
       - DJANGO_SECRET_KEY
       - DJANGO_DEBUG
       - DATABASE_URL
+    networks:
+      - postgres
+    depends_on:
+      - 'postgres'
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:
